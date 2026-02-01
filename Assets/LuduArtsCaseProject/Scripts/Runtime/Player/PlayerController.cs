@@ -41,6 +41,7 @@ namespace LuduArts.InteractionSystem.Player
         #endregion
 
         #region Methods
+        
         /// <summary>
         /// Initializes the player controller by setting up the CharacterController and camera.
         /// </summary>

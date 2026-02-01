@@ -23,15 +23,6 @@ namespace LuduArts.InteractionSystem.Interactables
 
         #endregion
 
-        #region Unity Methods
-
-        private void Awake()
-        {
-            UpdateState(true);
-        }
-
-        #endregion
-
         #region IInteractable Implementation
 
         public string DisplayName => m_DisplayName;
@@ -51,9 +42,22 @@ namespace LuduArts.InteractionSystem.Interactables
         }
 
         #endregion
+        
+        #region Unity Methods
+
+        private void Awake()
+        {
+            UpdateState(true);
+        }
+
+        #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Updates the light and switch mesh state.
+        /// </summary>
+        /// <param name="instant"></param>
         private void UpdateState(bool instant)
         {
             if (m_TargetLight != null)

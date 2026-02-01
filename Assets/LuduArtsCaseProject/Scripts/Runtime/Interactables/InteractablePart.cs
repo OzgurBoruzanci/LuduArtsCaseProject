@@ -16,22 +16,6 @@ namespace LuduArts.InteractionSystem.Interactables
 
         #endregion
 
-        #region Unity Methods
-
-        private void Awake()
-        {
-            if (m_MainInteractableScript is IInteractable interactable)
-            {
-                m_MainInteractable = interactable;
-            }
-            else
-            {
-                Debug.LogError($"{name}: Atanan script IInteractable arayüzünü uygulamıyor!");
-            }
-        }
-
-        #endregion
-
         #region IInteractable Implementation
 
         public string DisplayName
@@ -65,6 +49,22 @@ namespace LuduArts.InteractionSystem.Interactables
             }
             return false;
         }
+        #endregion
+
+         #region Unity Methods
+
+        private void Awake()
+        {
+            if (m_MainInteractableScript is IInteractable interactable)
+            {
+                m_MainInteractable = interactable;
+            }
+            else
+            {
+                Debug.LogError($"{name}: Atanan script IInteractable arayüzünü uygulamıyor!");
+            }
+        }
+
         #endregion
     }
 }

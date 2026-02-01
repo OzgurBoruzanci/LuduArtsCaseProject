@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using LuduArts.InteractionSystem.Core;
+using System.Collections.Generic;
 
 namespace LuduArts.InteractionSystem.Interactables
 {
@@ -15,7 +16,6 @@ namespace LuduArts.InteractionSystem.Interactables
         private const float k_OpenDuration = 3f;
         private const float k_AnimDuration = 1.5f;
 
-        // Serialized private fields
         [Header("Settings")]
         [SerializeField] private string m_ChestName = "Old Chest";
         [SerializeField] private float m_OpenAngle = -100f;
@@ -23,27 +23,12 @@ namespace LuduArts.InteractionSystem.Interactables
         [Header("References")]
         [SerializeField] private Transform m_LidPivot;
         [SerializeField] private Transform m_LockVisual;
+        [Header("Loot Settings")]
+        [SerializeField] private List<Data.ItemData> m_Contents;        
+        [SerializeField] private Transform m_SpawnPoint;
 
         private bool m_IsOpen = false;
         private bool m_IsAnimating = false;
-
-        #endregion
-
-        #region Unity Methods
-
-        private void Awake()
-        {
-            if (m_LidPivot == null)
-            {
-                Debug.LogError($"{name}: Lid Pivot atanmamış!");
-            }
-        }
-
-        private void OnDestroy()
-        {
-            m_LidPivot.DOKill();
-            if (m_LockVisual != null) m_LockVisual.DOKill();
-        }
 
         #endregion
 
@@ -56,7 +41,7 @@ namespace LuduArts.InteractionSystem.Interactables
             get
             {
                 if (m_IsAnimating) return "";
-                
+
                 return m_IsOpen ? "Press E to Close" : "Hold E to Open";
             }
         }
@@ -87,8 +72,29 @@ namespace LuduArts.InteractionSystem.Interactables
 
         #endregion
 
+        #region Unity Methods
+
+        private void Awake()
+        {
+            if (m_LidPivot == null)
+            {
+                Debug.LogError($"{name}: Lid Pivot atanmamış!");
+            }
+        }
+
+        private void OnDestroy()
+        {
+            m_LidPivot.DOKill();
+            if (m_LockVisual != null) m_LockVisual.DOKill();
+        }
+
+        #endregion
+
         #region Methods
 
+        /// <summary>
+        /// Opens the chest with an animation and spawns the loot items.
+        /// </summary>
         private void OpenChest()
         {
             m_IsAnimating = true;
@@ -100,8 +106,28 @@ namespace LuduArts.InteractionSystem.Interactables
             m_LidPivot.DOLocalRotate(new Vector3(m_OpenAngle, 0, 0), k_AnimDuration)
                 .SetEase(Ease.OutBounce)
                 .OnComplete(() => m_IsAnimating = false);
+
+            foreach (var itemData in m_Contents)
+            {
+                if (itemData.WorldPrefab != null)
+                {
+                    GameObject lootObj = Instantiate(itemData.WorldPrefab, m_SpawnPoint.position, Quaternion.identity);
+                    PickupItem pickup = lootObj.GetComponent<PickupItem>();
+                    if (pickup == null) pickup = lootObj.AddComponent<PickupItem>();
+                    pickup.Initialize(itemData);
+                    Rigidbody rb = lootObj.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.AddForce(Vector3.up * 2f + Random.insideUnitSphere, ForceMode.Impulse);
+                    }
+                }
+            }
+            m_Contents.Clear();
         }
 
+        /// <summary>
+        /// Closes the chest with an animation.
+        /// </summary>
         private void CloseChest()
         {
             m_IsAnimating = true;

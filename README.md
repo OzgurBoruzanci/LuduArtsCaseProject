@@ -6,9 +6,9 @@
 | Bilgi | Değer |
 |-------|-------|
 | Unity Versiyonu | 6000.0.53f1 |
-| Render Pipeline | Built-in / URP / HDRP |
-| Case Süresi | X saat |
-| Tamamlanma Oranı | %XX |
+| Render Pipeline | Built-in / URP |
+| Case Süresi | 8 saat |
+| Tamamlanma Oranı | %100 |
 
 ---
 
@@ -16,11 +16,11 @@
 
 1. Repository'yi klonlayın:
 ```bash
-git clone https://github.com/[username]/[repo-name].git
+git clone https://github.com/OzgurBoruzanci/LuduArtsCaseProject
 ```
 
 2. Unity Hub'da projeyi açın
-3. `Assets/[ProjectName]/Scenes/TestScene.unity` sahnesini açın
+3. `Assets/[LuduArtsCaseProject]/Scenes/TestScene.unity` sahnesini açın
 4. Play tuşuna basın
 
 ---
@@ -38,50 +38,53 @@ git clone https://github.com/[username]/[repo-name].git
 
 ### Test Senaryoları
 
-1. **Door Test:**
-   - Kapıya yaklaşın, "Press E to Open" mesajını görün
-   - E'ye basın, kapı açılsın
-   - Tekrar basın, kapı kapansın
+1. Door & Lock Test:
 
-2. **Key + Locked Door Test:**
-   - Kilitli kapıya yaklaşın, "Locked - Key Required" mesajını görün
-   - Anahtarı bulun ve toplayın
-   - Kilitli kapıya geri dönün, şimdi açılabilir olmalı
+    - Kapıya yaklaşın, "Press E to Open" yazısını görünce açın.
+    - Kilitli kapıya gidin. "Locked - Key A Requires" uyarısını görün.
+    - Yanlış bir anahtarla denerseniz "Wrong Key" mesajını test edin.
+     -Doğru anahtarı bulup açın (Anahtarın uçarak kilide gitme animasyonunu izleyin).
 
-3. **Switch Test:**
-   - Switch'e yaklaşın ve aktive edin
-   - Bağlı nesnenin (kapı/ışık vb.) tetiklendiğini görün
+2. Inventory & Swapping Test:
 
-4. **Chest Test:**
-   - Sandığa yaklaşın
-   - E'ye basılı tutun, progress bar dolsun
-   - Sandık açılsın ve içindeki item alınsın
+   - Yerdeki anahtarları toplayın.
+   -1, 2, 3 tuşları ile anahtarı elinize alın (Equip).
+   - Elinizde bir eşya varken, envanterdeki başka bir eşyanın tuşuna basarak eşya takaslama (swap) özelliğini test edin.
+
+3. Chest (Hold Interaction) Test:
+
+    - Sandığa yaklaşın. "Hold E to Open" yazısını görün.
+    - E tuşuna basılı tutun. Yuvarlak progress bar'ın dolduğunu izleyin.
+    - 3 saniye sonunda sandık açılacak ve içinden rastgele eşyalar (Loot) fırlayacaktır.
+
+4. witch & Events:
+
+    - Işık anahtarına (Switch) tıklayarak ortam ışığını açıp kapatın.
+    - DOTween ile yapılan yumuşak geçişleri gözlemleyin.
 
 ---
 
 ## Mimari Kararlar
 
-### Interaction System Yapısı
+Interaction System Yapısı
 
-```
-[Mimari diyagram veya açıklama]
-```
+Sistem, Interface-based (Arayüz tabanlı) bir yapı üzerine kurulmuştur.
 
-**Neden bu yapıyı seçtim:**
-> [Açıklama]
+    IInteractable: Tüm etkileşimli nesneler (Kapı, Sandık, Anahtar) bu arayüzü uygular.
 
-**Alternatifler:**
-> [Düşündüğünüz diğer yaklaşımlar ve neden seçmediniz]
+    InteractionDetector: Oyuncu tarafındaki bu script, sadece IInteractable arayüzünü arar. Karşısındaki nesnenin ne olduğunu (Kapı mı, Sandık mı?) bilmesine gerek yoktur. Bu sayede sistem Loose Coupling (Gevşek Bağlılık) prensibine uyar.
 
-**Trade-off'lar:**
-> [Bu yaklaşımın avantaj ve dezavantajları]
+Neden bu yapıyı seçtim:
+
+    SOLID prensiplerine (özellikle Open/Closed Principle) uygun olması için. Yeni bir etkileşimli nesne eklemek istediğimde Player koduna dokunmama gerek kalmıyor; sadece yeni objeye interface'i implemente etmem yetiyor.
 
 ### Kullanılan Design Patterns
 
 | Pattern | Kullanım Yeri | Neden |
 |---------|---------------|-------|
-| [Observer] | [Event system] | [Açıklama] |
-| [State] | [Door states] | [Açıklama] |
+| [Singleton Pattern] | [InventoryManager, InteractionDetector] | [Global erişim ve tekil yönetim gerektiren sistemler için (UI mesajları, envanter kontrolü).] |
+| [DOTween] | [Kapı, Sandık, Anahtar Hareketi] | [Unity'nin standart animasyon sistemi yerine, kod tabanlı ve daha performanslı olduğu için tercih edildi.] |
+| [Raycast System] | [InteractionDetector] | [Merkezden çıkan ışın ile nesne tespiti (Player ve Trigger layer'ları ignore edilerek optimize edildi).] |
 | [vb.] | | |
 
 ---
@@ -92,21 +95,21 @@ git clone https://github.com/[username]/[repo-name].git
 
 | Kural | Uygulandı | Notlar |
 |-------|-----------|--------|
-| m_ prefix (private fields) | [x] / [ ] | |
+| m_ prefix (private fields) | [x] / [Tüm private değişkenlerde uygulandı. ] | |
 | s_ prefix (private static) | [x] / [ ] | |
-| k_ prefix (private const) | [x] / [ ] | |
-| Region kullanımı | [x] / [ ] | |
+| k_ prefix (private const) | [x] / [ Sabit değerlerde uygulandı.] | |
+| Region kullanımı | [x] / [ Fields, Unity Methods, Methods şeklinde ayrıldı.] | |
 | Region sırası doğru | [x] / [ ] | |
-| XML documentation | [x] / [ ] | |
-| Silent bypass yok | [x] / [ ] | |
+| XML documentation | [x] / [Public API ve Interface metodlarına eklendi. ] | |
+| Silent bypass yok | [x] / [ Null check'ler yapıldı, gerekli yerlere hata logları eklendi.] | |
 | Explicit interface impl. | [x] / [ ] | |
 
 ### Naming Convention
 
 | Kural | Uygulandı | Örnekler |
 |-------|-----------|----------|
-| P_ prefix (Prefab) | [x] / [ ] | P_Door, P_Chest |
-| M_ prefix (Material) | [x] / [ ] | M_Door_Wood |
+| P_ prefix (Prefab) | [x] / [ Prefablar: P_Door, P_Chest, P_Player formatında isimlendirildi.] | P_Door, P_Chest |
+| M_ prefix (Material) | [x] / [Materiallar: M_Black, M_Gray formatında isimlendirildi. ] | M_Door_Wood |
 | T_ prefix (Texture) | [x] / [ ] | |
 | SO isimlendirme | [x] / [ ] | |
 
@@ -114,13 +117,10 @@ git clone https://github.com/[username]/[repo-name].git
 
 | Kural | Uygulandı | Notlar |
 |-------|-----------|--------|
-| Transform (0,0,0) | [x] / [ ] | |
-| Pivot bottom-center | [x] / [ ] | |
+| Transform (0,0,0) | [x] / [Transform: Tüm prefabların root değerleri (0,0,0) olarak ayarlandı ] | |
+| Pivot bottom-center | [x] / [Pivot: Kapı ve karakter pivotları standartlara (Bottom/Hinge) uygun ayarlandı. ] | |
 | Collider tercihi | [x] / [ ] | Box > Capsule > Mesh |
 | Hierarchy yapısı | [x] / [ ] | |
-
-### Zorlandığım Noktalar
-> [Standartları uygularken zorlandığınız yerler]
 
 ---
 
@@ -128,37 +128,37 @@ git clone https://github.com/[username]/[repo-name].git
 
 ### Zorunlu (Must Have)
 
-- [x] / [ ] Core Interaction System
-  - [x] / [ ] IInteractable interface
-  - [x] / [ ] InteractionDetector
-  - [x] / [ ] Range kontrolü
+- [x] / [ x] Core Interaction System
+  - [x] / [x ] IInteractable interface
+  - [x] / [x ] InteractionDetector
+  - [x] / [x ] Range kontrolü
 
-- [x] / [ ] Interaction Types
+- [x] / [x ] Interaction Types
   - [x] / [ ] Instant
   - [x] / [ ] Hold
   - [x] / [ ] Toggle
 
-- [x] / [ ] Interactable Objects
-  - [x] / [ ] Door (locked/unlocked)
-  - [x] / [ ] Key Pickup
-  - [x] / [ ] Switch/Lever
-  - [x] / [ ] Chest/Container
+- [x] / [x ] Interactable Objects
+  - [x] / [x ] Door (locked/unlocked)
+  - [x] / [x ] Key Pickup
+  - [x] / [ x] Switch/Lever
+  - [x] / [ x] Chest/Container
 
-- [x] / [ ] UI Feedback
-  - [x] / [ ] Interaction prompt
-  - [x] / [ ] Dynamic text
-  - [x] / [ ] Hold progress bar
+- [x] / [x ] UI Feedback
+  - [x] / [ x] Interaction prompt
+  - [x] / [ x] Dynamic text
+  - [x] / [x ] Hold progress bar
   - [x] / [ ] Cannot interact feedback
 
-- [x] / [ ] Simple Inventory
-  - [x] / [ ] Key toplama
-  - [x] / [ ] UI listesi
+- [x] / [x ] Simple Inventory
+  - [x] / [x ] Key toplama
+  - [x] / [x ] UI listesi
 
 ### Bonus (Nice to Have)
 
-- [ ] Animation entegrasyonu
+- [x ] Animation entegrasyonu
 - [ ] Sound effects
-- [ ] Multiple keys / color-coded
+- [x ] Multiple keys / color-coded
 - [ ] Interaction highlight
 - [ ] Save/Load states
 - [ ] Chained interactions
@@ -168,29 +168,8 @@ git clone https://github.com/[username]/[repo-name].git
 ## Bilinen Limitasyonlar
 
 ### Tamamlanamayan Özellikler
-1. [Özellik] - [Neden tamamlanamadı]
-2. [Özellik] - [Neden]
-
-### Bilinen Bug'lar
-1. [Bug açıklaması] - [Reproduce adımları]
-2. [Bug]
-
-### İyileştirme Önerileri
-1. [Öneri] - [Nasıl daha iyi olabilirdi]
-2. [Öneri]
-
----
-
-## Ekstra Özellikler
-
-Zorunlu gereksinimlerin dışında eklediklerim:
-
-1. **[Özellik Adı]**
-   - Açıklama: [Ne yapıyor]
-   - Neden ekledim: [Motivasyon]
-
-2. **[Özellik Adı]**
-   - ...
+1. [Ses Efektleri] - [Proje kapsamında ses dosyaları entegre edilmemiştir]
+2. [Save/Load] - [Oyun durumu kaydedilmemektedir.]
 
 ---
 
@@ -198,32 +177,19 @@ Zorunlu gereksinimlerin dışında eklediklerim:
 
 ```
 Assets/
-??? [ProjectName]/
-?   ??? Scripts/
-?   ?   ??? Runtime/
-?   ?   ?   ??? Core/
-?   ?   ?   ?   ??? IInteractable.cs
-?   ?   ?   ?   ??? ...
-?   ?   ?   ??? Interactables/
-?   ?   ?   ?   ??? Door.cs
-?   ?   ?   ?   ??? ...
-?   ?   ?   ??? Player/
-?   ?   ?   ?   ??? ...
-?   ?   ?   ??? UI/
-?   ?   ?       ??? ...
-?   ?   ??? Editor/
-?   ??? ScriptableObjects/
-?   ??? Prefabs/
-?   ??? Materials/
-?   ??? Scenes/
-?       ??? TestScene.unity
-??? Docs/
-?   ??? CSharp_Coding_Conventions.md
-?   ??? Naming_Convention_Kilavuzu.md
-?   ??? Prefab_Asset_Kurallari.md
-??? README.md
-??? PROMPTS.md
-??? .gitignore
+└── LuduArts_Case/
+    ├── Scripts/
+    │   ├── Runtime/
+    │   │   ├── Core/           # IInteractable, InteractablePart
+    │   │   ├── Interactables/  # Door, Chest, Switch, PickupItem
+    │   │   ├── Player/         # InteractionDetector, InventoryManager, PlayerController
+    │   │   └── ScriptableObjects/ # ItemData
+    ├── Prefabs/                # P_Door, P_Chest, P_Player...
+    ├── Scenes/                 # TestScene
+    └── Docs/                   # Standart dokümanlar
+└── README.md
+└── PROMPTS.md
+└── .gitignore
 ```
 
 ---
@@ -232,10 +198,10 @@ Assets/
 
 | Bilgi | Değer |
 |-------|-------|
-| Ad Soyad | [Adınız] |
-| E-posta | [email@example.com] |
-| LinkedIn | [profil linki] |
-| GitHub | [github.com/username] |
+| Ad Soyad | [Özgür Boruzancı] |
+| E-posta | [ozgurboruzanc@gmail.com] |
+| LinkedIn | [[profil linki](https://www.linkedin.com/in/%C3%B6zg%C3%BCr-boruzanc%C4%B1-188005226/)] |
+| GitHub | [[https://github.com/OzgurBoruzanci] |
 
 ---
 

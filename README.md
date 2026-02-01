@@ -1,138 +1,137 @@
-# Interaction System - [Adınız Soyadınız]
-
+# Interaction System - Ã–zgÃ¼r BoruzancÄ±
 > Ludu Arts Unity Developer Intern Case
 
 ## Proje Bilgileri
 
-| Bilgi | Değer |
+| Bilgi | DeÄŸer |
 |-------|-------|
-| Unity Versiyonu | 20XX.X.XXf1 |
+| Unity Versiyonu | 6000.0.53f1 |
 | Render Pipeline | Built-in / URP / HDRP |
-| Case Süresi | X saat |
-| Tamamlanma Oranı | %XX |
+| Case SÃ¼resi | X saat |
+| Tamamlanma OranÄ± | %XX |
 
 ---
 
 ## Kurulum
 
-1. Repository'yi klonlayın:
+1. Repository'yi klonlayÄ±n:
 ```bash
 git clone https://github.com/[username]/[repo-name].git
 ```
 
-2. Unity Hub'da projeyi açın
-3. `Assets/[ProjectName]/Scenes/TestScene.unity` sahnesini açın
-4. Play tuşuna basın
+2. Unity Hub'da projeyi aÃ§Ä±n
+3. `Assets/[ProjectName]/Scenes/TestScene.unity` sahnesini aÃ§Ä±n
+4. Play tuÅŸuna basÄ±n
 
 ---
 
-## Nasıl Test Edilir
+## NasÄ±l Test Edilir
 
 ### Kontroller
 
-| Tuş | Aksiyon |
+| TuÅŸ | Aksiyon |
 |-----|---------|
 | WASD | Hareket |
-| Mouse | Bakış yönü |
-| E | Etkileşim |
-| [Diğer] | [Açıklama] |
+| Mouse | BakÄ±ÅŸ yÃ¶nÃ¼ |
+| E | EtkileÅŸim |
+| [DiÄŸer] | [AÃ§Ä±klama] |
 
-### Test Senaryoları
+### Test SenaryolarÄ±
 
 1. **Door Test:**
-   - Kapıya yaklaşın, "Press E to Open" mesajını görün
-   - E'ye basın, kapı açılsın
-   - Tekrar basın, kapı kapansın
+   - KapÄ±ya yaklaÅŸÄ±n, "Press E to Open" mesajÄ±nÄ± gÃ¶rÃ¼n
+   - E'ye basÄ±n, kapÄ± aÃ§Ä±lsÄ±n
+   - Tekrar basÄ±n, kapÄ± kapansÄ±n
 
 2. **Key + Locked Door Test:**
-   - Kilitli kapıya yaklaşın, "Locked - Key Required" mesajını görün
-   - Anahtarı bulun ve toplayın
-   - Kilitli kapıya geri dönün, şimdi açılabilir olmalı
+   - Kilitli kapÄ±ya yaklaÅŸÄ±n, "Locked - Key Required" mesajÄ±nÄ± gÃ¶rÃ¼n
+   - AnahtarÄ± bulun ve toplayÄ±n
+   - Kilitli kapÄ±ya geri dÃ¶nÃ¼n, ÅŸimdi aÃ§Ä±labilir olmalÄ±
 
 3. **Switch Test:**
-   - Switch'e yaklaşın ve aktive edin
-   - Bağlı nesnenin (kapı/ışık vb.) tetiklendiğini görün
+   - Switch'e yaklaÅŸÄ±n ve aktive edin
+   - BaÄŸlÄ± nesnenin (kapÄ±/Ä±ÅŸÄ±k vb.) tetiklendiÄŸini gÃ¶rÃ¼n
 
 4. **Chest Test:**
-   - Sandığa yaklaşın
-   - E'ye basılı tutun, progress bar dolsun
-   - Sandık açılsın ve içindeki item alınsın
+   - SandÄ±ÄŸa yaklaÅŸÄ±n
+   - E'ye basÄ±lÄ± tutun, progress bar dolsun
+   - SandÄ±k aÃ§Ä±lsÄ±n ve iÃ§indeki item alÄ±nsÄ±n
 
 ---
 
 ## Mimari Kararlar
 
-### Interaction System Yapısı
+### Interaction System YapÄ±sÄ±
 
 ```
-[Mimari diyagram veya açıklama]
+[Mimari diyagram veya aÃ§Ä±klama]
 ```
 
-**Neden bu yapıyı seçtim:**
-> [Açıklama]
+**Neden bu yapÄ±yÄ± seÃ§tim:**
+> [AÃ§Ä±klama]
 
 **Alternatifler:**
-> [Düşündüğünüz diğer yaklaşımlar ve neden seçmediniz]
+> [DÃ¼ÅŸÃ¼ndÃ¼ÄŸÃ¼nÃ¼z diÄŸer yaklaÅŸÄ±mlar ve neden seÃ§mediniz]
 
 **Trade-off'lar:**
-> [Bu yaklaşımın avantaj ve dezavantajları]
+> [Bu yaklaÅŸÄ±mÄ±n avantaj ve dezavantajlarÄ±]
 
-### Kullanılan Design Patterns
+### KullanÄ±lan Design Patterns
 
-| Pattern | Kullanım Yeri | Neden |
+| Pattern | KullanÄ±m Yeri | Neden |
 |---------|---------------|-------|
-| [Observer] | [Event system] | [Açıklama] |
-| [State] | [Door states] | [Açıklama] |
+| [Observer] | [Event system] | [AÃ§Ä±klama] |
+| [State] | [Door states] | [AÃ§Ä±klama] |
 | [vb.] | | |
 
 ---
 
-## Ludu Arts Standartlarına Uyum
+## Ludu Arts StandartlarÄ±na Uyum
 
 ### C# Coding Conventions
 
-| Kural | Uygulandı | Notlar |
+| Kural | UygulandÄ± | Notlar |
 |-------|-----------|--------|
 | m_ prefix (private fields) | [x] / [ ] | |
 | s_ prefix (private static) | [x] / [ ] | |
 | k_ prefix (private const) | [x] / [ ] | |
-| Region kullanımı | [x] / [ ] | |
-| Region sırası doğru | [x] / [ ] | |
+| Region kullanÄ±mÄ± | [x] / [ ] | |
+| Region sÄ±rasÄ± doÄŸru | [x] / [ ] | |
 | XML documentation | [x] / [ ] | |
 | Silent bypass yok | [x] / [ ] | |
 | Explicit interface impl. | [x] / [ ] | |
 
 ### Naming Convention
 
-| Kural | Uygulandı | Örnekler |
+| Kural | UygulandÄ± | Ã–rnekler |
 |-------|-----------|----------|
 | P_ prefix (Prefab) | [x] / [ ] | P_Door, P_Chest |
 | M_ prefix (Material) | [x] / [ ] | M_Door_Wood |
 | T_ prefix (Texture) | [x] / [ ] | |
 | SO isimlendirme | [x] / [ ] | |
 
-### Prefab Kuralları
+### Prefab KurallarÄ±
 
-| Kural | Uygulandı | Notlar |
+| Kural | UygulandÄ± | Notlar |
 |-------|-----------|--------|
 | Transform (0,0,0) | [x] / [ ] | |
 | Pivot bottom-center | [x] / [ ] | |
 | Collider tercihi | [x] / [ ] | Box > Capsule > Mesh |
-| Hierarchy yapısı | [x] / [ ] | |
+| Hierarchy yapÄ±sÄ± | [x] / [ ] | |
 
-### Zorlandığım Noktalar
-> [Standartları uygularken zorlandığınız yerler]
+### ZorlandÄ±ÄŸÄ±m Noktalar
+> [StandartlarÄ± uygularken zorlandÄ±ÄŸÄ±nÄ±z yerler]
 
 ---
 
-## Tamamlanan Özellikler
+## Tamamlanan Ã–zellikler
 
 ### Zorunlu (Must Have)
 
 - [x] / [ ] Core Interaction System
   - [x] / [ ] IInteractable interface
   - [x] / [ ] InteractionDetector
-  - [x] / [ ] Range kontrolü
+  - [x] / [ ] Range kontrolÃ¼
 
 - [x] / [ ] Interaction Types
   - [x] / [ ] Instant
@@ -168,34 +167,34 @@ git clone https://github.com/[username]/[repo-name].git
 
 ## Bilinen Limitasyonlar
 
-### Tamamlanamayan Özellikler
-1. [Özellik] - [Neden tamamlanamadı]
-2. [Özellik] - [Neden]
+### Tamamlanamayan Ã–zellikler
+1. [Ã–zellik] - [Neden tamamlanamadÄ±]
+2. [Ã–zellik] - [Neden]
 
 ### Bilinen Bug'lar
-1. [Bug açıklaması] - [Reproduce adımları]
+1. [Bug aÃ§Ä±klamasÄ±] - [Reproduce adÄ±mlarÄ±]
 2. [Bug]
 
-### İyileştirme Önerileri
-1. [Öneri] - [Nasıl daha iyi olabilirdi]
-2. [Öneri]
+### Ä°yileÅŸtirme Ã–nerileri
+1. [Ã–neri] - [NasÄ±l daha iyi olabilirdi]
+2. [Ã–neri]
 
 ---
 
-## Ekstra Özellikler
+## Ekstra Ã–zellikler
 
-Zorunlu gereksinimlerin dışında eklediklerim:
+Zorunlu gereksinimlerin dÄ±ÅŸÄ±nda eklediklerim:
 
-1. **[Özellik Adı]**
-   - Açıklama: [Ne yapıyor]
+1. **[Ã–zellik AdÄ±]**
+   - AÃ§Ä±klama: [Ne yapÄ±yor]
    - Neden ekledim: [Motivasyon]
 
-2. **[Özellik Adı]**
+2. **[Ã–zellik AdÄ±]**
    - ...
 
 ---
 
-## Dosya Yapısı
+## Dosya YapÄ±sÄ±
 
 ```
 Assets/
@@ -229,17 +228,17 @@ Assets/
 
 ---
 
-## İletişim
+## Ä°letiÅŸim
 
-| Bilgi | Değer |
+| Bilgi | DeÄŸer |
 |-------|-------|
-| Ad Soyad | [Adınız] |
+| Ad Soyad | [AdÄ±nÄ±z] |
 | E-posta | [email@example.com] |
 | LinkedIn | [profil linki] |
 | GitHub | [github.com/username] |
 
 ---
 
-*Bu proje Ludu Arts Unity Developer Intern Case için hazırlanmıştır.*
+*Bu proje Ludu Arts Unity Developer Intern Case iÃ§in hazÄ±rlanmÄ±ÅŸtÄ±r.*
 
 
